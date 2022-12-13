@@ -14,5 +14,8 @@ export class CreateBoardDto {
   author: string;
 
   @IsString()
-  date: string;
+  create_ts: string;
+
+  @IsString()
+  update_ts: string;
 }
