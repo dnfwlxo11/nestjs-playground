@@ -1,16 +1,17 @@
 import { Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { BoardService } from './board.service';
+import { Board } from './entities/board.entity';
 
 @Controller('board')
 export class BoardController {
   constructor(private readonly boardService: BoardService) {}
 
   @Get()
-  getAll() {
-    const contents = this.boardService.getAll();
-    console.log(contents);
+  async getAll(): Promise<Board[]> {
+    const contents = await this.boardService.getAll();
+    console.log(contents, 'contents');
 
-    return `Get all board data`;
+    return contents;
   }
 
   @Get(':id')

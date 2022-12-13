@@ -12,13 +12,15 @@ export class BoardService {
 
   private boards: Board[];
 
-  getAll(): Board[] {
-    console.log(this.boards);
+  async getAll(): Promise<Board[]> {
+    console.log(this.boardRepository);
+    const datas = await this.boardRepository.find();
 
-    return this.boards;
+    console.log(datas, 'datas');
+
+    return datas;
   }
 
-  // return type Board
   getOne(contentId: number): Board {
     const content = this.boards.find(
       (content) => content.contentId === contentId,
