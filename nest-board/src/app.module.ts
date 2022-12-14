@@ -5,7 +5,7 @@ import { BoardModule } from './board/board.module';
 import { DatabaseModule } from './database/database.module';
 
 @Module({
-  imports: [BoardModule, DatabaseModule],
+  imports: [DatabaseModule, BoardModule],
   controllers: [AppController],
   providers: [AppService],
 })

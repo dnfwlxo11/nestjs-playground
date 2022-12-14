@@ -1,4 +1,5 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Board } from 'src/board/entities/board.entity';
 
 export const databaseProvider = TypeOrmModule.forRoot({
   type: 'mysql',

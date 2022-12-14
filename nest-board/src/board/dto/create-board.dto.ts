@@ -1,21 +1,31 @@
-import { IsNumber, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsDateString,
+  IsEmpty,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Length,
+} from 'class-validator';
 
 export class CreateBoardDto {
-  @IsNumber()
-  contentId: number;
+  @IsString()
+  @IsNotEmpty()
+  @Length(1, 30)
+  readonly title: string;
 
   @IsString()
-  title: string;
+  @IsNotEmpty()
+  @Length(1, 500)
+  readonly content: string;
 
   @IsString()
-  content: string;
+  @IsNotEmpty()
+  @Length(1, 30)
+  readonly author: string;
 
-  @IsString()
-  author: string;
-
-  @IsString()
-  create_ts: string;
-
-  @IsString()
-  update_ts: string;
+  @IsDateString()
+  @IsOptional()
+  readonly updateAt: Date;
 }

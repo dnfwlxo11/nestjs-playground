@@ -14,9 +14,9 @@ export class Board {
   @Column({ length: 30 })
   author: string;
 
-  @Column()
-  create_ts: string;
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date;
 
-  @Column()
-  update_ts: string;
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  updatedAt: Date;
 }

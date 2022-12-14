@@ -1,5 +1,14 @@
-import { Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { BoardService } from './board.service';
+import { CreateBoardDto } from './dto/create-board.dto';
 import { Board } from './entities/board.entity';
 
 @Controller('board')
@@ -17,13 +26,14 @@ export class BoardController {
   @Get(':id')
   getOne(@Param('id') contentId: number) {
     const content = this.boardService.getOne(contentId);
-    console.log(content);
 
-    return `Get content by id ${contentId}`;
+    return content;
   }
 
   @Post()
-  createContent() {
+  async createContent(@Body() createData: CreateBoardDto) {
+    await this.boardService.createContent(createData);
+
     return `Content created`;
   }
 
