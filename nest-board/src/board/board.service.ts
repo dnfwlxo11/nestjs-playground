@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateBoardDto } from './dto/create-board.dto';
+import { UpdateBoardDto } from './dto/update-board.dto';
 import { Board } from './entities/board.entity';
 
 @Injectable()
@@ -57,21 +58,27 @@ export class BoardService {
     return result;
   }
 
-  deleteOne(contentId: number) {
-    const content = this.getOne(contentId);
+  async patchOne(
+    updateData: UpdateBoardDto,
+    contentId: number,
+  ): Promise<boolean> {
+    await this.boardRepository
+      .createQueryBuilder()
+      .update(Board)
+      .set(updateData)
+      .where('contentId = :id', { id: contentId })
+      .execute();
 
-    this.boards = this.boards.filter(
-      (content) => content.contentId !== contentId,
-    );
-
-    return `Delete content with id ${contentId}`;
+    return true;
   }
 
-  patchContent(updateData: CreateBoardDto, contentId: number): boolean {
-    const content = this.getOne(contentId);
-
-    this.deleteOne(contentId);
-    this.createContent(updateData);
+  async deleteOne(contentId: number): Promise<boolean> {
+    await this.boardRepository
+      .createQueryBuilder()
+      .delete()
+      .from(Board)
+      .where('contentId = :id', { id: contentId })
+      .execute();
 
     return true;
   }

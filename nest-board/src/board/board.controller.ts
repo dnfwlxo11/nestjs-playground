@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { BoardService } from './board.service';
 import { CreateBoardDto } from './dto/create-board.dto';
+import { UpdateBoardDto } from './dto/update-board.dto';
 import { Board } from './entities/board.entity';
 
 @Controller('board')
@@ -37,13 +38,20 @@ export class BoardController {
     return `Content created`;
   }
 
-  @Patch()
-  patchContent() {
-    return `Content updated`;
+  @Patch(':id')
+  async patchContent(
+    @Body() updateData: UpdateBoardDto,
+    @Param('id') contentId: number,
+  ) {
+    await this.boardService.patchOne(updateData, contentId);
+
+    return `Content updated by id ${contentId}`;
   }
 
   @Delete(':id')
-  deleteContent(@Param('id') contentId: number) {
+  async deleteContent(@Param('id') contentId: number) {
+    await this.boardService.deleteOne(contentId);
+
     return `Delete content by id ${contentId}`;
   }
 }
