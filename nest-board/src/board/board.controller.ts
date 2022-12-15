@@ -19,7 +19,6 @@ export class BoardController {
   @Get()
   async getAll(): Promise<Board[]> {
     const contents = await this.boardService.getAll();
-    console.log(contents, 'contents');
 
     return contents;
   }

@@ -21,8 +21,6 @@ export class BoardService {
       .select('*')
       .getRawMany();
 
-    console.log(datas, 'datas');
-
     return datas;
   }
 
@@ -43,17 +41,12 @@ export class BoardService {
   }
 
   async createContent(boardData: CreateBoardDto) {
-    console.log(boardData);
-    console.log('create content');
-
     const result = await this.boardRepository
       .createQueryBuilder()
       .insert()
       .into(Board)
       .values([boardData])
       .execute();
-
-    // this.boards.push(boardData);
 
     return result;
   }
