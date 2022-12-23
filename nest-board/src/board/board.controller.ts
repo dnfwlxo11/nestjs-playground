@@ -6,13 +6,17 @@ import {
   Param,
   Patch,
   Post,
+  UseInterceptors,
 } from '@nestjs/common';
+import { SuccessInterceptor } from 'src/common/interceptions/success.interceptor';
+import { PipeExample } from 'src/common/pipes/pipeExample.pipe';
 import { BoardService } from './board.service';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
 import { Board } from './entities/board.entity';
 
 @Controller('board')
+@UseInterceptors(SuccessInterceptor)
 export class BoardController {
   constructor(private readonly boardService: BoardService) {}
 
@@ -24,7 +28,7 @@ export class BoardController {
   }
 
   @Get(':id')
-  getOne(@Param('id') contentId: number) {
+  getOne(@Param('id', PipeExample) contentId: number) {
     const content = this.boardService.getOne(contentId);
 
     return content;
@@ -40,7 +44,7 @@ export class BoardController {
   @Patch(':id')
   async patchContent(
     @Body() updateData: UpdateBoardDto,
-    @Param('id') contentId: number,
+    @Param('id', PipeExample) contentId: number,
   ) {
     await this.boardService.patchOne(updateData, contentId);
 
@@ -48,7 +52,7 @@ export class BoardController {
   }
 
   @Delete(':id')
-  async deleteContent(@Param('id') contentId: number) {
+  async deleteContent(@Param('id', PipeExample) contentId: number) {
     await this.boardService.deleteOne(contentId);
 
     return `Delete content by id ${contentId}`;
